@@ -1,0 +1,30 @@
+package com.revature.services;
+
+import com.revature.exceptions.TrainerNotFoundException;
+import com.revature.models.Trainer;
+import com.revature.repos.TrainerDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class TrainerService {
+    private TrainerDAO td;
+
+    @Autowired
+    public TrainerService(TrainerDAO td) {
+        this.td = td;
+    }
+
+    public List<Trainer> getAllTrainers() {
+        return td.findAll();
+    }
+
+    public Trainer findTrainerById(int id) {
+        return td.findById(id).orElseThrow(() -> new TrainerNotFoundException("No Trainer found with id: " + id));
+    }
+
+    public Trainer createTrainer(Trainer trainer) {
+        return td.save(trainer);
+    }
+}

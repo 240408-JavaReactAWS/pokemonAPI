@@ -114,7 +114,7 @@ As a user, I should be able to submit a GET request on the endpoint GET localhos
 - The list is empty if there are no pokemon
 - Response status is 200 (OK)
 
-## Retrieve a Trainer By the Trainer's id
+## Retrieve a Pokemon By id
 
 As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/pokemon/{id}.
 

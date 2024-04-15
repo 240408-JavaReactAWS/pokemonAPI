@@ -6,46 +6,47 @@ This is the first project as a part of Revature training and is a Spring Boot Ja
 
 This API models the following relationships:
 - A Trainer has many pokemon
-- A Type has many pokemon
 - A Pokemon belongs to a Trainer
-- A Pokemon belongs to a Type
 
 ### Pokemon
 ```
-id integer primary key auto_increment,
-nick-name varchar(255),
-level integer,
-foreign key (trainer_id) references Trainer(id),
-foreign key (type_id) references Type(id)
+id,
+nick-name,
+level,
+trainer_id
 ```
 
 ### Trainer
 ```
-id integer primary key auto_increment,
-name varchar(255),
-age integer,
-region varchar(255)
-```
-
-### Type
-```
-id integer primary key auto_increment,
-name varchar(255),
-description varchar(255),
-element varchar(255)
+id,
+name,
+age,
+region
 ```
 
 ### Endpoints
 ```
-/trainers
-/trainers/{id}
-/trainers/{id}/pokemon
-/trainers/{id}/pokemon/{id}
-/pokemon
-/pokemon/{id}
+GET /trainers
+POST /trainers
+GET /trainers/{id}
+PATCH /trainers/{id}
+DELETE /trainers/{id}
+GET /pokemon
+POST /pokemon
+GET /pokemon/{id}
+PATCH /pokemon/{id}
+DELETE /pokemon/{id}
 ```
 
 # User Stories: Trainers
+
+## Retrieve All Trainers
+
+As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers
+
+- The response body contains a JSON representation of a list containing all trainers retrieved from the database
+- The list is empty if there are no trainers
+- Response status is 200 (OK)
 
 ## Create a New Trainer
 
@@ -63,14 +64,6 @@ Successful new Trainer creations:
 Unsuccessful new Trainer creations:
 - The response status is 400 (Client error)
 
-## Retrieve All Trainers
-
-As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers
-
-- The response body contains a JSON representation of a list containing all trainers retrieved from the database
-- The list is empty if there are no trainers
-- Response status is 200 (OK)
-
 ## Retrieve a Trainer By the Trainer's id
 
 As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers/{id}.
@@ -78,23 +71,6 @@ As a user, I should be able to submit a GET request on the endpoint GET localhos
 - The response body contains a JSON representation of the Trainer identified by the id
 - When a Trainer is found, the response status is 200 (OK)
 - When a Trainer is not found, the response status is 404
-
-## Retrieve a Trainer's Collection of Pokemon By the Trainer's id
-
-As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers/{id}/pokemon.
-
-- The response body contains a JSON representation of the Trainer identified by the id
-- The list is empty if there are no pokemon
-- When a Trainer is found, the response status is 200 (OK)
-- When a Trainer is not found, the response status is 404
-
-## Retrieve a Trainer's Pokemon By the Trainer's id and Pokemon's id
-
-As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers/{id}/pokemon/{id}.
-
-- The response body contains a JSON representation of the message identified by the id
-- When a Trainer and Pokemon are found, the response status should be 200 (OK)
-- When a Trainer and Pokemon are not found, the response status should be 404
 
 ## Update Trainer's Attributes By the Trainer's id
 
@@ -110,6 +86,20 @@ For successful updates:
 age, region)
 - The response status is 200 (OK)
 - The Trainer found in the database reflects all updated values
+
+For unsuccessful updates:
+- The response status is 400 (Client error)
+
+## Delete Trainer By id
+
+As a user, I should be able to submit a DELETE request on the endpoint PATCH localhost:{PORT}/trainers/{id}. The request body contains the trainer's id.
+
+A Trainer can be deleted if:
+- The trainer id already exists
+
+For successful updates:
+- The response status is 200 (OK)
+- The Trainer is removed from the database
 
 For unsuccessful updates:
 - The response status is 400 (Client error)

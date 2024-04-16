@@ -2,12 +2,13 @@ package com.revature.models;
 
 import jakarta.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "trainers")
 public class Trainer {
     @Id
-    @Column (name = "id")
+    @Column (name = "trainerId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -19,6 +20,9 @@ public class Trainer {
 
     @Column
     private String region;
+
+    @OneToMany(mappedBy = "pokemonId", cascade = CascadeType.ALL)
+    private Set<Pokemon> pokemon;
 
     public Trainer() {
     }

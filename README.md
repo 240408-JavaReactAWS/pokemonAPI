@@ -45,6 +45,7 @@ DELETE /pokemon/{id}
 
 As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers
 
+SUCCESSFUL:
 - The response body contains a JSON representation of a list containing all trainers retrieved from the database
 - The list is empty if there are no trainers
 - Response status is 200 (OK)
@@ -53,57 +54,52 @@ As a user, I should be able to submit a GET request on the endpoint GET localhos
 
 As a user, I should be able to create a new Trainer on the endpoint POST localhost:{PORT}/trainers. The request body contains a JSON representation of a Trainer.
 
-New Trainers will be successfully created if the provided name:
-- Is not blank
-- A Trainer with that name doesn't already exist
-
-Successful new Trainer creations:
+SUCCESSFUL:
+- The provided name is not blank
 - The response body contains a JSON representation of the Trainer, including its id.
 - The response status is the default 200 OK
 - The new account is persisted to the database
 
-Unsuccessful new Trainer creations:
+UNSUCCESSFUL:
 - The response status is 400 (Client error)
 
 ## Retrieve a Trainer By the Trainer's id
 
 As a user, I should be able to submit a GET request on the endpoint GET localhost:{PORT}/trainers/{id}.
 
+SUCCESSFUL:
 - The response body contains a JSON representation of the Trainer identified by the id
 - When a Trainer is found, the response status is 200 (OK)
+
+UNSUCCESSFUL:
 - When a Trainer is not found, the response status is 404
 
 ## Update Trainer's Attributes By the Trainer's id
 
 As a user, I should be able to submit a PATCH request on the endpoint PATCH localhost:{PORT}/trainers/{id}. The request body contains new values to replace on the Trainer with provided id.
 
-A Trainer can be updated if:
+SUCCESSFUL:
 - The trainer id already exists
 - All attributes are not blank
-- All non-numeric text provided to attributes as values are not over 255 characters
-
-For successful updates:
 - The response body contains the full updated Trainer (id, name,
 age, region)
 - The response status is 200 (OK)
 - The Trainer found in the database reflects all updated values
 
-For unsuccessful updates:
-- The response status is 400 (Client error)
+UNSUCCESSFUL:
+- The response status is 404 (Not Found)
 
 ## Delete Trainer By id
 
-As a user, I should be able to submit a DELETE request on the endpoint PATCH localhost:{PORT}/trainers/{id}. The request body contains the trainer's id.
+As a user, I should be able to submit a DELETE request on the endpoint DELETE localhost:{PORT}/trainers/{id}. The request body contains the trainer's id.
 
-A Trainer can be deleted if:
+SUCCESSFUL:
 - The trainer id already exists
-
-For successful updates:
 - The response status is 200 (OK)
 - The Trainer is removed from the database
 
-For unsuccessful updates:
-- The response status is 400 (Client error)
+UNSUCCESSFUL (or subsequent requests to the same id):
+- The response status is 404 (Not Found)
 
 # User Stories: Pokemon
 

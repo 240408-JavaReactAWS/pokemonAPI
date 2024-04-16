@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface TrainerDAO extends JpaRepository<Trainer, Integer> {
     Optional<Trainer> findById(int id);
+    boolean existsById(int id);
 }

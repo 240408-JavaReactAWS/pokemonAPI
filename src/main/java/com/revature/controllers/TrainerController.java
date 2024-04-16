@@ -55,8 +55,12 @@ public class TrainerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteTrainerByIdHandler(@PathVariable int id) {
-        String result = ts.deleteById(id);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<Boolean> deleteTrainerByIdHandler(@PathVariable int id) {
+        boolean result = ts.deleteById(id);
+        if (result) {
+            return new ResponseEntity<>(result, OK);
+        } else {
+            return new ResponseEntity<>(NOT_FOUND);
+        }
     }
 }

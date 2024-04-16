@@ -47,11 +47,12 @@ public class TrainerService {
         }
     }
 
-    public String deleteById(int id) {
+    public boolean deleteById(int id) {
         if (this.existsById(id)) {
             td.deleteById(id);
-            return "1";
+            return true;
+        } else {
+            return false;
         }
-        return "";
     }
 }

@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/trainers")
@@ -41,19 +40,23 @@ public class TrainerController {
         return new ResponseEntity<>(trainer, OK);
     }
 
-    // TODO PATCH /trainers/{id}
-    // @PatchMapping("{id}")
-    // public ResponseEntity<Trainer> updateTrainerByIdHandler(@PathVariable int id) {
-    //     Trainer trainer;
-    //     if (ts.exists(id)) {
-    //         try {
-    //             trainer = ts.editTrainer()
-    //         } catch (TrainerNotFoundException e) {
-    //             return new ResponseEntity<>(NOT_FOUND);
-    //         }
-    //     }
+    @PatchMapping("{id}")
+    public ResponseEntity<Trainer> updateTrainerByIdHandler(@PathVariable int id, @RequestBody Trainer updatedTrainer) {
+        Trainer trainer;
+        if (ts.existsById(id)) {
+            try {
+                trainer = ts.edit(id, updatedTrainer);
+            } catch (TrainerNotFoundException e) {
+                return new ResponseEntity<>(NOT_FOUND);
+            }
+            return new ResponseEntity<>(trainer, OK);
+        }
+        return new ResponseEntity<>(NOT_FOUND);
+    }
 
-    //     return new ResponseEntity<>(trainer, OK);
-    // }
-    // TODO DELETE /trainers/{id}
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteTrainerByIdHandler(@PathVariable int id) {
+        String result = ts.deleteById(id);
+        return ResponseEntity.ok(result);
+    }
 }

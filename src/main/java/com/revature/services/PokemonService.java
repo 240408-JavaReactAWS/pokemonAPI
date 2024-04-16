@@ -45,4 +45,13 @@ public class PokemonService {
     public List<Pokemon> retrieveAllPokemon() {
         return pokemonDAO.findAll();
     }
+    public boolean deletePokemonById(int pokemonId) {
+        Pokemon pokemon = this.retrievePokemon(pokemonId);
+        if (pokemon == null) {
+            return false;
+        } else {
+            pokemonDAO.deleteById(pokemonId);
+            return true;
+        }
+    }
 }

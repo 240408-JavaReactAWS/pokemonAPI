@@ -40,4 +40,11 @@ public class PokemonController {
     public ResponseEntity<List<Pokemon>> getAllPokemon() {
         return ResponseEntity.ok().body(pokemonService.retrieveAllPokemon());
     }
+    @DeleteMapping(value="/pokemon/{pokemon_id}")
+    public ResponseEntity<?> deletePokemon(@PathVariable int pokemon_id) {
+        if (pokemonService.deletePokemonById(pokemon_id)) {
+            return ResponseEntity.ok().body(1);
+        }
+        return ResponseEntity.status(400).body(0);
+    }
 }

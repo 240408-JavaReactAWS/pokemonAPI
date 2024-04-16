@@ -6,6 +6,7 @@ import com.revature.repos.TrainerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainerService {
@@ -20,11 +21,38 @@ public class TrainerService {
         return td.findAll();
     }
 
-    public Trainer findTrainerById(int id) {
+    public Trainer findTrainerById(int id) throws TrainerNotFoundException {
         return td.findById(id).orElseThrow(() -> new TrainerNotFoundException("No Trainer found with id: " + id));
     }
 
     public Trainer createTrainer(Trainer trainer) {
         return td.save(trainer);
+    }
+
+    public boolean existsById(int id) {
+        return td.existsById(id);
+    }
+
+    public Trainer edit(int id, Trainer updatedTrainer) {
+        Optional<Trainer> optTrainer = td.findById(id);
+        if (optTrainer.isPresent()) {
+            Trainer trainer = optTrainer.get();
+            trainer.setName(updatedTrainer.getName());
+            trainer.setAge(updatedTrainer.getAge());
+            trainer.setRegion(updatedTrainer.getRegion());
+            td.save(trainer);
+            return trainer;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean deleteById(int id) {
+        if (this.existsById(id)) {
+            td.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

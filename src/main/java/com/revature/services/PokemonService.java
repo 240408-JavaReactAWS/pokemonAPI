@@ -45,6 +45,15 @@ public class PokemonService {
     public List<Pokemon> retrieveAllPokemon() {
         return pokemonDAO.findAll();
     }
+    public List<Pokemon> retrieveAllPokemonByTrainerId(int trainerId) {
+        Optional<Trainer> trainerOpt = trainerDAO.findById(trainerId);
+        if (trainerOpt.isPresent()) {
+            Trainer trainer = trainerOpt.get();
+            return pokemonDAO.findAllByTrainer(trainer);
+        } else {
+            return null;
+        }
+    }
     public boolean deletePokemonById(int pokemonId) {
         Pokemon pokemon = this.retrievePokemon(pokemonId);
         if (pokemon == null) {
@@ -53,5 +62,21 @@ public class PokemonService {
             pokemonDAO.deleteById(pokemonId);
             return true;
         }
+    }
+    // This is for when we want to alter the nickname or level of a specific Pokemon.
+    public Pokemon updatePokemonById(int pokemonId, Pokemon pokemonEdit) {
+        Pokemon storedPokemon = this.retrievePokemon(pokemonId);
+        if (storedPokemon == null) {
+            return null;
+        }
+        if (pokemonEdit.getNickname()!= null) {
+            if (!pokemonEdit.getNickname().isEmpty()) {
+                storedPokemon.setNickname(pokemonEdit.getNickname());
+            }
+        }
+        if (pokemonEdit.getLevel() > storedPokemon.getLevel()) {
+            storedPokemon.setLevel(pokemonEdit.getLevel());
+        }
+        return pokemonDAO.save(storedPokemon);
     }
 }

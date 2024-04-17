@@ -19,10 +19,8 @@ public class Pokemon {
     private int level;
     @Column(nullable = false)
     private int pokedexEntry;
-    //@JoinColumn(name = "trainers.id", nullable =false)
-    // Maybe modify trainers id column to have a more specific name
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "trainers.id"))
+    @JoinColumn(name = "trainersId")
     private Trainer trainer;
 
 
@@ -46,6 +44,14 @@ public class Pokemon {
         this.nickname = nickname;
         this.level = level;
         this.pokedexEntry = pokedexEntry;
+    }
+    public Pokemon(String nickname, int level) {
+        this.nickname = nickname;
+        this.level = level;
+    }
+    public Pokemon(String nickname) {
+        this.nickname = nickname;
+        this.level = 0;
     }
     public int getPokemonId() {
         return pokemonId;

@@ -40,11 +40,28 @@ public class PokemonController {
     public ResponseEntity<List<Pokemon>> getAllPokemon() {
         return ResponseEntity.ok().body(pokemonService.retrieveAllPokemon());
     }
+    @GetMapping(value="/trainers/{trainer_id}/pokemon")
+    public ResponseEntity<List<Pokemon>> getAllPokemonByTrainerId(@PathVariable int trainer_id) {
+        List<Pokemon> allPokemon = pokemonService.retrieveAllPokemonByTrainerId(trainer_id);
+        if (allPokemon != null) {
+            return ResponseEntity.ok().body(allPokemon);
+        } else {
+            return ResponseEntity.status(400).build();
+        }
+    }
     @DeleteMapping(value="/pokemon/{pokemon_id}")
     public ResponseEntity<?> deletePokemon(@PathVariable int pokemon_id) {
         if (pokemonService.deletePokemonById(pokemon_id)) {
             return ResponseEntity.ok().body(1);
         }
         return ResponseEntity.status(400).body(0);
+    }
+    @PatchMapping(value="/pokemon/{pokemon_id}")
+    public ResponseEntity<Pokemon> updatePokemon(@PathVariable int pokemon_id, @RequestBody Pokemon pokemon) {
+        Pokemon editedPokemon = pokemonService.updatePokemonById(pokemon_id, pokemon);
+        if (editedPokemon != null) {
+            return ResponseEntity.ok().body(editedPokemon);
+        }
+        return ResponseEntity.status(400).build();
     }
 }

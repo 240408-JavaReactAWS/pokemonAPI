@@ -21,11 +21,14 @@ public class PokemonController {
     public ResponseEntity<?> createPokemon(@PathVariable int trainer_id, @RequestBody Pokemon pokemon) {
         try {
             Pokemon addedPokemon = pokemonService.addPokemon(trainer_id, pokemon);
+            if (addedPokemon == null) {
+                return ResponseEntity.status(400).build();
+            }
             return ResponseEntity.ok().body(addedPokemon);
         } catch (TrainerNotFoundException t) {
             System.out.println(t.getMessage());
         }
-        return ResponseEntity.status(400).build();
+        return ResponseEntity.status(404).build();
     }
     @GetMapping(value = "/pokemon/{pokemon_id}")
     public ResponseEntity<Pokemon> getPokemon(@PathVariable int pokemon_id) {
@@ -33,7 +36,7 @@ public class PokemonController {
         if (pokemon != null) {
             return ResponseEntity.ok().body(pokemon);
         } else {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(404).build();
         }
     }
     @GetMapping(value="/pokemon")
@@ -46,7 +49,7 @@ public class PokemonController {
         if (allPokemon != null) {
             return ResponseEntity.ok().body(allPokemon);
         } else {
-            return ResponseEntity.status(400).build();
+            return ResponseEntity.status(404).build();
         }
     }
     @DeleteMapping(value="/pokemon/{pokemon_id}")
@@ -54,7 +57,7 @@ public class PokemonController {
         if (pokemonService.deletePokemonById(pokemon_id)) {
             return ResponseEntity.ok().body(1);
         }
-        return ResponseEntity.status(400).body(0);
+        return ResponseEntity.status(404).body(0);
     }
     @PatchMapping(value="/pokemon/{pokemon_id}")
     public ResponseEntity<Pokemon> updatePokemon(@PathVariable int pokemon_id, @RequestBody Pokemon pokemon) {

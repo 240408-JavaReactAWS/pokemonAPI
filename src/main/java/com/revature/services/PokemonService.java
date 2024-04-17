@@ -24,6 +24,21 @@ public class PokemonService {
 
 
     public Pokemon addPokemon (int trainerId, Pokemon pokemon) throws TrainerNotFoundException {
+        int pokedexEntryNum = pokemon.getPokedexEntry();
+        String nickname = pokemon.getNickname();
+        int level = pokemon.getLevel();
+        if (pokedexEntryNum < 1 || pokedexEntryNum > 1025) {
+            return null;
+        }
+        if (level <= 0) {
+            return null;
+        }
+        if (nickname == null) {
+            return null;
+        }
+        if (nickname.isEmpty()) {
+            return null;
+        }
         Optional<Trainer> trainerOpt = trainerDAO.findById(trainerId);
         if (trainerOpt.isPresent()) {
             Trainer trainer = trainerOpt.get();

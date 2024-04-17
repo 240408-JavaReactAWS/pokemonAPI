@@ -48,10 +48,12 @@ public class Pokemon {
     public Pokemon(String nickname, int level) {
         this.nickname = nickname;
         this.level = level;
+        this.pokedexEntry = 0;
     }
     public Pokemon(String nickname) {
         this.nickname = nickname;
         this.level = 0;
+        this.pokedexEntry = 0;
     }
     public int getPokemonId() {
         return pokemonId;
